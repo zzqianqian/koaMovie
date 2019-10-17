@@ -1,9 +1,15 @@
 const Koa = require('koa')
+const views = require('koa-views')
+const path = require('path')
 const app = new Koa()
-const {normal} = require('./tpl')
+app.use(views(path.join(__dirname, './views'), {
+  extension: 'ejs'
+}))
 app.use(async (ctx, next) => {
-  ctx.type = 'text/html;charset=utf-8'
-  ctx.body = normal
+  let title = 'hello koa2 success'
+  await ctx.render('egsPlug', {
+    title
+  })
+  await next()
 })
-
 app.listen(4455)
